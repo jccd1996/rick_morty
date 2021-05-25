@@ -11,24 +11,28 @@ class CharactersBloc extends Bloc {
 
   CharactersBloc(this._characterUseCase);
 
-  final characterSubject = BehaviorSubject<List<Results>>();
-  ValueStream<List<Results>> get character => characterSubject.stream;
+  final charactersSubject = BehaviorSubject<List<Results>>();
+  final loadingSubject = BehaviorSubject<bool>();
+  ValueStream<List<Results>> get characters => charactersSubject.stream;
+
+  ValueStream<bool> get loading => loadingSubject.stream;
 
   Future<CharacterResponse> getCharacters() {
+    loadingSubject.value = true;
     return _characterUseCase.get().then((value) {
-      characterSubject.value = value.results;
+      charactersSubject.value = value.results;
+      loadingSubject.value = false;
       return value;
     });
   }
 
-  void getNewData() {
-    _characterUseCase.getCharacters().then((value) {
-      characterSubject.value = [];
-    });
+  void cleanList() {
+    charactersSubject.value = [];
   }
 
   @override
   void dispose() {
-    characterSubject?.close();
+    charactersSubject?.close();
+    loadingSubject?.close();
   }
 }

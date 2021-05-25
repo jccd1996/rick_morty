@@ -10,6 +10,7 @@ class CharactersPage extends StatefulWidget {
 }
 
 class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
+  String camilo;
   @override
   void initState() {
     super.initState();
@@ -21,35 +22,82 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<List<Results>>(
-          stream: bloc.character,
-          initialData: [],
-          builder: (context, snapshot) {
-            if (snapshot.data == null) {
-              return SizedBox.shrink();
-            }
-            return ListView(
-              children: [
-                ...snapshot.data.map((e) => Text(e.name)).toList(),
-                InkWell(
-                  onTap: () {
-                    bloc.getNewData();
-                  },
-                  child: Text(
-                    'BOTON',
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    bloc.getCharacters();
-                  },
-                  child: Text(
-                    'traer',
-                  ),
-                ),
-              ],
-            );
+      appBar: AppBar(
+        title: Text('Rick and Morty'),
+      ),
+      body: StreamBuilder<bool>(
+          stream: bloc.loading,
+          initialData: false,
+          builder: (context, snapshotLoading) {
+            return StreamBuilder<List<Results>>(
+                stream: bloc.characters,
+                initialData: [],
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return SizedBox.shrink();
+                  }
+                  return ListView(
+                    children: [
+                      if (!snapshotLoading.data)
+                        ...snapshot.data
+                            .map((e) => _CharacterName(
+                                  name: e.name,
+                                ))
+                            .toList(),
+                      if (snapshotLoading.data)
+                        const _CircularProgressIndicator(),
+                      OutlinedButton(
+                        onPressed: () {
+                          bloc.getCharacters();
+                        },
+                        child: Text(
+                          'Get characters',
+                        ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          bloc.cleanList();
+                        },
+                        child: Text(
+                          'Clean',
+                        ),
+                      ),
+                    ],
+                  );
+                });
           }),
+    );
+  }
+}
+
+class _CharacterName extends StatelessWidget {
+  final String name;
+
+  const _CharacterName({
+    this.name,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(name ?? ''),
+    );
+  }
+}
+
+class _CircularProgressIndicator extends StatelessWidget {
+  const _CircularProgressIndicator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 }

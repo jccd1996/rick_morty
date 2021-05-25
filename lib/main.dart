@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/runner.dart';
 import 'package:rick_morty/ui/characters_page.dart';
 
+import 'app/app_settings.dart';
+import 'app/application.dart';
+
 void main() {
+  var appSettings = AppSettings(
+    baseUrl: "https://rickandmortyapi.com",
+  );
+  Application().appSettings = appSettings;
   runnerApp();
 }
 
