@@ -1,18 +1,19 @@
 import 'package:models/base_model.dart';
+import 'package:models/base_request.dart';
 
 mixin BaseRepository {}
 
 mixin RepositoryStreamAll<M extends BaseModel> on BaseRepository {
-  Stream<List<M>> streamAll([Map params]);
+  Stream<List<M>> streamAll([BaseRequest params]);
 }
 mixin RepositoryStream<M extends BaseModel> on BaseRepository {
-  Stream<M> stream([Map params]);
+  Stream<M> stream([BaseRequest params]);
 }
 mixin RepositoryGetAll<M extends BaseModel> on BaseRepository {
-  Future<List<M>> getAll([Map params]);
+  Future<List<M>> getAll([BaseRequest params]);
 }
 mixin RepositoryGet<M extends BaseModel> on BaseRepository {
-  Future<M> get([Map params]);
+  Future<M> get([BaseRequest params]);
 }
 mixin RepositoryGetById<M extends BaseModel> on BaseRepository {
   Future<M> getById(String id);

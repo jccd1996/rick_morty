@@ -1,7 +1,7 @@
 class Info {
-  int count;
-  int pages;
-  String next;
+  int? count;
+  int? pages;
+  String? next;
   Null prev;
 
   Info({this.count, this.pages, this.next, this.prev});

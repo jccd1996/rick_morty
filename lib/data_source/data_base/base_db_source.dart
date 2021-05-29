@@ -1,5 +1,6 @@
 import 'package:data/base/base_source.dart';
 import 'package:models/base_model.dart';
+import 'package:models/base_request.dart';
 import 'package:sembast/sembast.dart';
 
 const String _dbOrderKey = 'dbOrder';
@@ -12,7 +13,7 @@ mixin DbSourceGetAllAdapter<T extends BaseModel> implements DbSourceGetAll<T> {
   StoreRef<String, Map<String, dynamic>> get store;
 
   @override
-  Stream<List<T>> getAll([Map params]) {
+  Stream<List<T>> getAll([BaseRequest params]) {
     return store
         .query(finder: Finder(sortOrders: [SortOrder(_dbOrderKey)]))
         .onSnapshots(db)
@@ -27,7 +28,7 @@ mixin DbSourceGetAdapter<T extends BaseModel> implements DbSourceGet<T> {
   final store = StoreRef.main();
 
   @override
-  Stream<T> get([Map params]) {
+  Stream<T> get([BaseRequest params]) {
     return store
         .record(T.toString())
         .onSnapshot(db)

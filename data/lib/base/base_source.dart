@@ -1,13 +1,14 @@
 import 'package:models/base_model.dart';
+import 'package:models/base_request.dart';
 
 mixin ApiSource {}
 
 mixin ApiSourceGetAll<T extends BaseModel> on ApiSource {
-  Future<List<T>> getAll([Map params]);
+  Future<List<T>> getAll([BaseRequest params]);
 }
 
 mixin ApiSourceGet<T extends BaseModel> on ApiSource {
-  Future<T> get([Map params]);
+  Future<T> get([BaseRequest params]);
 }
 
 mixin ApiSourceGetById<T extends BaseModel> on ApiSource {
@@ -21,11 +22,11 @@ mixin ApiSourcePost<T, R> on ApiSource {
 mixin DbSource {}
 
 mixin DbSourceGetAll<T extends BaseModel> on DbSource {
-  Stream<List<T>> getAll([Map params]);
+  Stream<List<T>> getAll([BaseRequest params]);
 }
 
 mixin DbSourceGet<T extends BaseModel> on DbSource {
-  Stream<T> get([Map params]);
+  Stream<T> get([BaseRequest params]);
 }
 
 mixin DbSourceGetById<T extends BaseModel> on DbSource {

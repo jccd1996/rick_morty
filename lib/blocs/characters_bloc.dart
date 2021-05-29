@@ -2,6 +2,7 @@ import 'package:domain/character_use_case.dart';
 import 'package:injectable/injectable.dart';
 import 'package:models/character_response.dart';
 import 'package:models/results.dart';
+import 'package:models/test_request.dart';
 import 'package:rick_morty/blocs/provider/bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,7 +20,8 @@ class CharactersBloc extends Bloc {
 
   Future<CharacterResponse> getCharacters() {
     loadingSubject.value = true;
-    return _characterUseCase.get().then((value) {
+    var testRequest = TestRequest(name: "Prueba endpoint");
+    return _characterUseCase.get(testRequest).then((value) {
       charactersSubject.value = value.results;
       loadingSubject.value = false;
       return value;

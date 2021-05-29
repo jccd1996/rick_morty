@@ -1,18 +1,18 @@
 import 'origin.dart';
 
 class Results {
-  int id;
-  String name;
-  String status;
-  String species;
-  String type;
-  String gender;
-  Origin origin;
-  Origin location;
-  String image;
-  List<String> episode;
-  String url;
-  String created;
+  int? id;
+  String? name;
+  String? status;
+  String? species;
+  String? type;
+  String? gender;
+  Origin? origin;
+  Origin? location;
+  String? image;
+  List<String>? episode;
+  String? url;
+  String? created;
 
   Results(
       {this.id,
@@ -54,10 +54,10 @@ class Results {
     data['type'] = this.type;
     data['gender'] = this.gender;
     if (this.origin != null) {
-      data['origin'] = this.origin.toJson();
+      data['origin'] = this.origin!.toJson();
     }
     if (this.location != null) {
-      data['location'] = this.location.toJson();
+      data['location'] = this.location!.toJson();
     }
     data['image'] = this.image;
     data['episode'] = this.episode;
