@@ -5,7 +5,7 @@ import 'package:rick_morty/di/injection.dart';
 
 abstract class BaseState<T extends StatefulWidget, K extends Bloc>
     extends State<T> {
-  K bloc;
+  K? bloc;
   @override
   void initState() {
     super.initState();

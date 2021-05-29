@@ -1,14 +1,14 @@
 import 'app_settings.dart';
 
 class Application {
-  static Application _singleton;
+  static Application? _singleton;
 
-  AppSettings appSettings;
+  AppSettings? appSettings;
   factory Application() {
     if (_singleton == null) {
       _singleton = Application._();
     }
-    return _singleton;
+    return _singleton!;
   }
 
   Application._();

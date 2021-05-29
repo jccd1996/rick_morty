@@ -9,14 +9,14 @@ import 'encrypt_codec.dart';
 
 @singleton
 class AppDatabase {
-  Database _db;
-  static AppDatabase _singleton;
+  Database? _db;
+  static AppDatabase? _singleton;
 
   factory AppDatabase() {
     if (_singleton == null) {
-      _singleton = AppDatabase._();
+      _singleton = AppDatabase?._();
     }
-    return _singleton;
+    return _singleton!;
   }
   AppDatabase._();
 
@@ -39,19 +39,19 @@ class AppDatabase {
   }
 
   Database get myDatabase {
-    return _db;
+    return _db!;
   }
 
   Future<Database> get database async {
     if (_db == null) {
       _db = await _setupDataBase('pc', false);
     }
-    return _db;
+    return _db!;
   }
 
   Future deleteDatabase() async {
     var appDocDirectory = await getApplicationDocumentsDirectory();
     await databaseFactoryIo.deleteDatabase('${appDocDirectory.path}/pc.db');
-    _db = null;
+    _db!.close();
   }
 }

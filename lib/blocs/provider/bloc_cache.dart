@@ -13,7 +13,7 @@ class BlocCache {
 
   BlocCache._internal();
 
-  static Bloc getBlocInstance(String blocKey, Function instance) {
+  static Bloc? getBlocInstance(String blocKey, Function instance) {
     var bloc = BlocCache._cache.blocs[blocKey];
 
     if (bloc != null) {
@@ -22,7 +22,7 @@ class BlocCache {
 
     if (instance != null) {
       bloc = instance();
-      BlocCache._cache.blocs[blocKey] = bloc;
+      BlocCache._cache.blocs[blocKey] = bloc!;
     }
 
     return bloc;

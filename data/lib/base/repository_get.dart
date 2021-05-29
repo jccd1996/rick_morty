@@ -10,12 +10,12 @@ mixin StorageRepositoryGetAdapter<M extends BaseModel>
   DbSource get dbSource;
 
   @override
-  Future<M> get([BaseRequest params]) {
+  Future<M> get([BaseRequest? params]) {
     return (apiSource as ApiSourceGet).get(params).then((result) async {
       if (result != null) {
         await (dbSource as DbSourceSave).save(result);
       }
-      return result;
+      return result as M;
     });
   }
 }
@@ -24,7 +24,7 @@ mixin RepositoryGetAdapter<M extends BaseModel> implements RepositoryGet<M> {
   ApiSourceGet get apiSource;
 
   @override
-  Future<M> get([BaseRequest params]) {
-    return apiSource.get(params);
+  Future<M> get([BaseRequest? params]) {
+    return apiSource.get(params) as Future<M>;
   }
 }

@@ -10,12 +10,12 @@ mixin StorageRepositoryGetAllAdapter<M extends BaseModel>
   DbSource get dbSource;
 
   @override
-  Future<List<M>> getAll([BaseRequest params]) {
+  Future<List<M>> getAll([BaseRequest? params]) {
     return (apiSource as ApiSourceGetAll).getAll(params).then((result) async {
       if (result != null) {
         await (dbSource as DbSourceSaveAll).saveAll(result);
       }
-      return result;
+      return result as List<M>;
     });
   }
 }
@@ -25,7 +25,7 @@ mixin RepositoryGetAllAdapter<M extends BaseModel>
   ApiSourceGetAll get apiSource;
 
   @override
-  Future<List<M>> getAll([BaseRequest params]) {
-    return apiSource.getAll(params);
+  Future<List<M>> getAll([BaseRequest? params]) {
+    return apiSource.getAll(params) as Future<List<M>>;
   }
 }

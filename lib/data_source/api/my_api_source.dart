@@ -10,7 +10,7 @@ import 'api_source.dart';
 @injectable
 class MyApiSource with ApiSource {
   @override
-  String get baseUrl => Application().appSettings.baseUrl;
+  String? get baseUrl => Application().appSettings!.baseUrl;
 
   @override
   http.Client get client => http.Client();
@@ -19,7 +19,7 @@ class MyApiSource with ApiSource {
   Connectivity get connectivity => ConnectivityAdapter();
 
   @override
-  Map<String, String> getHeaders(Map<String, String> headers) {
+  Map<String, String> getHeaders(Map<String, String>? headers) {
     headers = headers ?? {};
     return headers;
   }

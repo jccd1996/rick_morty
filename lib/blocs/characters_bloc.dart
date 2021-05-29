@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:domain/character_use_case.dart';
 import 'package:injectable/injectable.dart';
 import 'package:models/character_response.dart';
@@ -12,17 +14,25 @@ class CharactersBloc extends Bloc {
 
   CharactersBloc(this._characterUseCase);
 
+  StreamSubscription<CharacterResponse>? _characterStreamSubscription;
   final charactersSubject = BehaviorSubject<List<Results>>();
   final loadingSubject = BehaviorSubject<bool>();
   ValueStream<List<Results>> get characters => charactersSubject.stream;
 
   ValueStream<bool> get loading => loadingSubject.stream;
+  Stream<CharacterResponse?> streamCharacter() {
+    var stream = _characterUseCase.stream();
+    _characterStreamSubscription = stream.listen((items) {
+      charactersSubject.value = items!.results!;
+    }) as StreamSubscription<CharacterResponse>?;
+    return stream;
+  }
 
   Future<CharacterResponse> getCharacters() {
     loadingSubject.value = true;
     var testRequest = TestRequest(name: "Prueba endpoint");
     return _characterUseCase.get(testRequest).then((value) {
-      charactersSubject.value = value.results;
+      //charactersSubject.value = value.results!;
       loadingSubject.value = false;
       return value;
     });
@@ -34,7 +44,8 @@ class CharactersBloc extends Bloc {
 
   @override
   void dispose() {
-    charactersSubject?.close();
-    loadingSubject?.close();
+    charactersSubject.close();
+    loadingSubject.close();
+    _characterStreamSubscription?.cancel();
   }
 }

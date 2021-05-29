@@ -72,8 +72,8 @@ class _EncryptDecoder extends Converter<String, Map<String, dynamic>> {
 
 /// Salsa20 based Codec
 class _EncryptCodec extends Codec<Map<String, dynamic>, String> {
-  _EncryptEncoder _encoder;
-  _EncryptDecoder _decoder;
+  _EncryptEncoder? _encoder;
+  _EncryptDecoder? _decoder;
 
   _EncryptCodec(Uint8List passwordBytes) {
     var salsa20 = Salsa20(Key(passwordBytes));
@@ -82,10 +82,10 @@ class _EncryptCodec extends Codec<Map<String, dynamic>, String> {
   }
 
   @override
-  Converter<String, Map<String, dynamic>> get decoder => _decoder;
+  Converter<String, Map<String, dynamic>> get decoder => _decoder!;
 
   @override
-  Converter<Map<String, dynamic>, String> get encoder => _encoder;
+  Converter<Map<String, dynamic>, String> get encoder => _encoder!;
 }
 
 /// Our plain text signature
@@ -112,7 +112,7 @@ const _encryptCodecSignature = 'encrypt';
 ///
 /// // ...your database is ready to use
 /// ```
-SembastCodec getEncryptSembastCodec({@required String password}) =>
+SembastCodec getEncryptSembastCodec({@required String? password}) =>
     SembastCodec(
         signature: _encryptCodecSignature,
-        codec: _EncryptCodec(_generateEncryptPassword(password)));
+        codec: _EncryptCodec(_generateEncryptPassword(password!)));

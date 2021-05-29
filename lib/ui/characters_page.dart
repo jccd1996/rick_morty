@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/results.dart';
 import 'package:rick_morty/blocs/characters_bloc.dart';
-import 'package:rick_morty/data_source/data_base/config/app_database.dart';
 import 'package:rick_morty/ui/base_state.dart';
 
 class CharactersPage extends StatefulWidget {
@@ -10,13 +9,11 @@ class CharactersPage extends StatefulWidget {
 }
 
 class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
-  String camilo;
   @override
   void initState() {
     super.initState();
-    AppDatabase().init().then((value) {
-      bloc.getCharacters();
-    });
+    bloc!.streamCharacter();
+    bloc!.getCharacters();
   }
 
   @override
@@ -26,11 +23,11 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
         title: Text('Rick and Morty'),
       ),
       body: StreamBuilder<bool>(
-          stream: bloc.loading,
+          stream: bloc!.loading,
           initialData: false,
           builder: (context, snapshotLoading) {
             return StreamBuilder<List<Results>>(
-                stream: bloc.characters,
+                stream: bloc!.characters,
                 initialData: [],
                 builder: (context, snapshot) {
                   if (snapshot.data == null) {
@@ -38,17 +35,17 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
                   }
                   return ListView(
                     children: [
-                      if (!snapshotLoading.data)
-                        ...snapshot.data
+                      if (!snapshotLoading.data!)
+                        ...snapshot.data!
                             .map((e) => _CharacterName(
-                                  name: e.name,
+                                  name: e.name!,
                                 ))
                             .toList(),
-                      if (snapshotLoading.data)
+                      if (snapshotLoading.data!)
                         const _CircularProgressIndicator(),
                       OutlinedButton(
                         onPressed: () {
-                          bloc.getCharacters();
+                          bloc!.getCharacters();
                         },
                         child: Text(
                           'Get characters',
@@ -56,7 +53,7 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
                       ),
                       OutlinedButton(
                         onPressed: () {
-                          bloc.cleanList();
+                          bloc!.cleanList();
                         },
                         child: Text(
                           'Clean',
@@ -71,7 +68,7 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
 }
 
 class _CharacterName extends StatelessWidget {
-  final String name;
+  final String? name;
 
   const _CharacterName({
     this.name,
@@ -88,7 +85,7 @@ class _CharacterName extends StatelessWidget {
 
 class _CircularProgressIndicator extends StatelessWidget {
   const _CircularProgressIndicator({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

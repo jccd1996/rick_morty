@@ -9,7 +9,7 @@ mixin StorageRepositoryStreamAdapter<M extends BaseModel>
   DbSource get dbSource;
 
   @override
-  Stream<M> stream([BaseRequest params]) {
-    return (dbSource as DbSourceGet).get(params);
+  Stream<M?> stream([BaseRequest? params]) {
+    return (dbSource as DbSourceGet).get(params) as Stream<M?>;
   }
 }

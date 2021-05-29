@@ -13,7 +13,7 @@ mixin DbSourceGetAllAdapter<T extends BaseModel> implements DbSourceGetAll<T> {
   StoreRef<String, Map<String, dynamic>> get store;
 
   @override
-  Stream<List<T>> getAll([BaseRequest params]) {
+  Stream<List<T>> getAll([BaseRequest? params]) {
     return store
         .query(finder: Finder(sortOrders: [SortOrder(_dbOrderKey)]))
         .onSnapshots(db)
@@ -28,11 +28,12 @@ mixin DbSourceGetAdapter<T extends BaseModel> implements DbSourceGet<T> {
   final store = StoreRef.main();
 
   @override
-  Stream<T> get([BaseRequest params]) {
-    return store
+  Stream<T?> get([BaseRequest? params]) {
+    var result = store
         .record(T.toString())
         .onSnapshot(db)
         .map((record) => record == null ? null : mapper(record.value));
+    return result as RecordSnapshot<int, Map<String, T>>;
   }
 }
 mixin DbSourceSaveAdapter<T extends BaseModel> implements DbSourceSave<T> {

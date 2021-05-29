@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/runner.dart';
-import 'package:rick_morty/ui/characters_page.dart';
+import 'package:rick_morty/ui/splash_page.dart';
 
 import 'app/app_settings.dart';
 import 'app/application.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CharactersPage(),
+      home: SplashPage(),
     );
   }
 }

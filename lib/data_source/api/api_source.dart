@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:rick_morty/connectivity/connectivity.dart';
 
 mixin ApiSource {
-  String get baseUrl;
+  String? get baseUrl;
 
   http.Client get client;
 
@@ -42,7 +42,7 @@ mixin ApiSource {
   Future<T> getApi<T>(
     String url,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
     bool sendHeaders = true,
   }) async {
     headers = getHeaders(headers ?? {});
@@ -58,7 +58,7 @@ mixin ApiSource {
   Future<T> deleteApi<T>(
     String url,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     var caller =
@@ -71,7 +71,7 @@ mixin ApiSource {
     String url,
     dynamic body,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     var newBody = getRequestBody(body);
@@ -90,7 +90,7 @@ mixin ApiSource {
     String url,
     dynamic body,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     var bodyString = getRequestBody(body);
@@ -105,7 +105,7 @@ mixin ApiSource {
     String url,
     Map<String, dynamic> body,
     T Function(dynamic value) mapperFunction, {
-    Map<String, String> headers,
+    Map<String, String>? headers,
   }) async {
     headers = getHeaders(headers ?? {});
     log(json.encode(body), name: 'requestBody');
@@ -118,7 +118,7 @@ mixin ApiSource {
 
   Future<T> multipartApi<T>(String url, Map<String, String> fields,
       String filePath, T Function(dynamic value) mapperFunction,
-      {Map<String, String> headers}) async {
+      {Map<String, String>? headers}) async {
     try {
       if (!await connectivity.isConnected()) {
         //  throw AppException(description: L10nConstants.defaultError);
@@ -209,8 +209,8 @@ mixin ApiSource {
   void _showLogs(http.BaseResponse response) {
     JsonDecoder decoder = JsonDecoder();
     JsonEncoder encoder = JsonEncoder.withIndent('  ');
-    log(response.request.url.toString(), name: 'url');
-    log(response.request.method, name: 'method');
+    log(response.request!.url.toString(), name: 'url');
+    log(response.request!.method, name: 'method');
     log(response.statusCode.toString(), name: 'statusCode');
     if (response is http.Response) {
       var object = decoder.convert(response.body);
