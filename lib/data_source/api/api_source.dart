@@ -7,7 +7,9 @@ import 'package:rick_morty/connectivity/connectivity.dart';
 
 mixin ApiSource {
   String get baseUrl;
+
   http.Client get client;
+
   Connectivity get connectivity;
 
   Map<String, String> getHeaders(Map<String, String> headers);
@@ -205,32 +207,18 @@ mixin ApiSource {
   }
 
   void _showLogs(http.BaseResponse response) {
-/*    if (BaseFlutterAppConfig().apiLogConfig?.enableUrl ?? false) {
-      log(response.request.url.toString(), name: 'url');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableMethod ?? false) {
-      log(response.request.method, name: 'method');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableHeaders ?? false) {
-      log(response.request.headers.toString(), name: 'headers');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableStatusCode ?? false) {
-      log(response.statusCode.toString(), name: 'statusCode');
-    }
-
-    if (BaseFlutterAppConfig().apiLogConfig?.enableResponseBody ?? false) {
-      if (response is http.Response) {
-        log(response.body, name: 'responseBody');
-      }
-    }*/
+    JsonDecoder decoder = JsonDecoder();
+    JsonEncoder encoder = JsonEncoder.withIndent('  ');
     log(response.request.url.toString(), name: 'url');
     log(response.request.method, name: 'method');
     log(response.statusCode.toString(), name: 'statusCode');
     if (response is http.Response) {
-      log(response.body, name: 'responseBody');
+      var object = decoder.convert(response.body);
+      var prettyString = encoder.convert(object);
+      log('''-----RESPONSE----
+      $prettyString
+      -----END RESPONSE----
+      ''', name: 'responseBody');
     }
   }
 }
