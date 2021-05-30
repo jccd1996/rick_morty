@@ -6,14 +6,10 @@ import 'base/get_use_case.dart';
 import 'base/stream_use_case.dart';
 
 mixin CharacterRepository
-    on RepositoryStream<CharacterResponse>, RepositoryGet<CharacterResponse> {
-  Future<CharacterResponse> getCharacters();
-}
+    on RepositoryStream<CharacterResponse>, RepositoryGet<CharacterResponse> {}
 
 mixin CharacterUseCase
-    on StreamUseCase<CharacterResponse>, GetUseCase<CharacterResponse> {
-  Future<CharacterResponse> getCharacters();
-}
+    on StreamUseCase<CharacterResponse>, GetUseCase<CharacterResponse> {}
 
 @Injectable(as: CharacterUseCase)
 class CharacterUseCaseAdapter
@@ -24,9 +20,4 @@ class CharacterUseCaseAdapter
   final CharacterRepository repository;
 
   CharacterUseCaseAdapter(this.repository);
-
-  @override
-  Future<CharacterResponse> getCharacters() {
-    return repository.getCharacters();
-  }
 }

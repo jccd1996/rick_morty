@@ -26,7 +26,7 @@ mixin DbSourceGetAll<T extends BaseModel> on DbSource {
 }
 
 mixin DbSourceGet<T extends BaseModel> on DbSource {
-  Stream<T?> get([BaseRequest? params]);
+  Stream<T> get([BaseRequest? params]);
 }
 
 mixin DbSourceGetById<T extends BaseModel> on DbSource {

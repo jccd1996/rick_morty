@@ -28,12 +28,13 @@ mixin DbSourceGetAdapter<T extends BaseModel> implements DbSourceGet<T> {
   final store = StoreRef.main();
 
   @override
-  Stream<T?> get([BaseRequest? params]) {
-    var result = store
+  Stream<T> get([BaseRequest? params]) {
+    Stream<T> result = store
         .record(T.toString())
         .onSnapshot(db)
-        .map((record) => record == null ? null : mapper(record.value));
-    return result as RecordSnapshot<int, Map<String, T>>;
+        .map((record) => mapper(record!.value));
+
+    return result;
   }
 }
 mixin DbSourceSaveAdapter<T extends BaseModel> implements DbSourceSave<T> {

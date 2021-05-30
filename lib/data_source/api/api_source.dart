@@ -63,7 +63,6 @@ mixin ApiSource {
     headers = getHeaders(headers ?? {});
     var caller =
         client.delete(Uri.parse(url), headers: headers).timeout(timeout);
-
     return _callApi(caller, mapperFunction);
   }
 

@@ -20,10 +20,11 @@ class CharactersBloc extends Bloc {
   ValueStream<List<Results>> get characters => charactersSubject.stream;
 
   ValueStream<bool> get loading => loadingSubject.stream;
+
   Stream<CharacterResponse?> streamCharacter() {
     var stream = _characterUseCase.stream();
     _characterStreamSubscription = stream.listen((items) {
-      charactersSubject.value = items!.results!;
+      charactersSubject.value = items?.results ?? [];
     }) as StreamSubscription<CharacterResponse>?;
     return stream;
   }
@@ -32,7 +33,7 @@ class CharactersBloc extends Bloc {
     loadingSubject.value = true;
     var testRequest = TestRequest(name: "Prueba endpoint");
     return _characterUseCase.get(testRequest).then((value) {
-      //charactersSubject.value = value.results!;
+      print("NUNCA LLEGO");
       loadingSubject.value = false;
       return value;
     });

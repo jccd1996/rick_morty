@@ -31,6 +31,5 @@ class CharacterResponse with BaseModel {
   }
 
   @override
-  // TODO: implement id
   String get id => '1';
 }

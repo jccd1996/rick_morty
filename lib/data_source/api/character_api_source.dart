@@ -13,12 +13,6 @@ class CharacterApiSourceAdapter implements CharacterApiSource {
   CharacterApiSourceAdapter(this.apiSource);
 
   @override
-  Future<CharacterResponse> getCharacters() async {
-    var url = '${apiSource.baseUrl}/api/character/?';
-    return apiSource.getApi(url, (value) => CharacterResponse.fromJson(value));
-  }
-
-  @override
   Future<CharacterResponse> get([BaseRequest? params]) async {
     var request = params as TestRequest;
     print("PRUEBA PARAMETROS: ${request.name}");

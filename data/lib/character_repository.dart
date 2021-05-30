@@ -6,9 +6,7 @@ import 'base/base_source.dart';
 import 'base/repository_get.dart';
 import 'base/repository_stream.dart';
 
-mixin CharacterApiSource on ApiSourceGet<CharacterResponse> {
-  Future<CharacterResponse> getCharacters();
-}
+mixin CharacterApiSource on ApiSourceGet<CharacterResponse> {}
 mixin CharacterDbSource
     on DbSourceSave<CharacterResponse>, DbSourceGet<CharacterResponse> {}
 
@@ -22,9 +20,4 @@ class CharacterRepositoryAdapter
   final CharacterDbSource dbSource;
 
   CharacterRepositoryAdapter(this.apiSource, this.dbSource);
-
-  @override
-  Future<CharacterResponse> getCharacters() {
-    return apiSource.getCharacters();
-  }
 }
