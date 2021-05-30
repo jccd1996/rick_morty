@@ -13,7 +13,9 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
   void initState() {
     super.initState();
     bloc!.streamCharacter();
-    bloc!.getCharacters();
+    bloc!.getCharacters().then((value) {
+      _showDialog(value.error?.message ?? '');
+    });
   }
 
   @override
@@ -63,6 +65,21 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
                   );
                 });
           }),
+    );
+  }
+
+  void _showDialog(String mensaje) {
+    var dialog = AlertDialog(
+      title: Text('Titulo'),
+      content: Text(mensaje),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return dialog;
+      },
     );
   }
 }

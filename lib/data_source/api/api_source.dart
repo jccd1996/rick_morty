@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:models/result.dart';
 import 'package:rick_morty/connectivity/connectivity.dart';
 
 mixin ApiSource {
@@ -16,30 +17,23 @@ mixin ApiSource {
 
   Duration get timeout => Duration(seconds: 30);
 
-  Future<T> _callApi<T>(
+  Future<Result<T>> _callApi<T>(
     Future<http.Response> caller,
     T Function(dynamic value) mapperFunction,
   ) async {
     try {
       if (!await connectivity.isConnected()) {
-        throw Exception();
+        return Result<T>.error(message: 'No internet');
       }
       var response = await caller;
       return await _manageResponse(response, mapperFunction);
-    } on Exception catch (e) {
-      log(e.toString(), name: 'error');
-      rethrow;
-    }
-    /* on ApiException catch (e) {
-      log(e.toString(), name: 'error');
-      rethrow;
     } catch (error) {
       log(error.toString(), name: 'error');
-      throw AppException(description: L10nConstants.defaultError);
-    }*/
+      return Result<T>.error(message: error.toString());
+    }
   }
 
-  Future<T> getApi<T>(
+  Future<Result<T>> getApi<T>(
     String url,
     T Function(dynamic value) mapperFunction, {
     Map<String, String>? headers,
@@ -55,7 +49,7 @@ mixin ApiSource {
     return _callApi(caller, mapperFunction);
   }
 
-  Future<T> deleteApi<T>(
+  Future<Result<T>> deleteApi<T>(
     String url,
     T Function(dynamic value) mapperFunction, {
     Map<String, String>? headers,
@@ -66,7 +60,7 @@ mixin ApiSource {
     return _callApi(caller, mapperFunction);
   }
 
-  Future<T> postApi<T>(
+  Future<Result<T>> postApi<T>(
     String url,
     dynamic body,
     T Function(dynamic value) mapperFunction, {
@@ -85,7 +79,7 @@ mixin ApiSource {
     return _callApi(caller, mapperFunction);
   }
 
-  Future<T> putApi<T>(
+  Future<Result<T>> putApi<T>(
     String url,
     dynamic body,
     T Function(dynamic value) mapperFunction, {
@@ -100,7 +94,7 @@ mixin ApiSource {
     return _callApi(caller, mapperFunction);
   }
 
-  Future<T> patchApi<T>(
+  Future<Result<T>> patchApi<T>(
     String url,
     Map<String, dynamic> body,
     T Function(dynamic value) mapperFunction, {
@@ -150,13 +144,13 @@ mixin ApiSource {
     return json.encode(body);
   }
 
-  Future<T> _manageResponse<T>(
+  Future<Result<T>> _manageResponse<T>(
     http.Response response,
     T Function(dynamic value) mapperFunction,
   ) async {
     _showLogs(response);
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return mapperFunction(_getBody(response.bodyBytes));
+      return Result<T>.success(mapperFunction(_getBody(response.bodyBytes)));
     } else {
       return _manageError<T>(response);
     }
@@ -176,19 +170,18 @@ mixin ApiSource {
     }
   }
 
-  T _manageError<T>(http.Response response) {
+  Result<T> _manageError<T>(http.Response response) {
     if (response.statusCode >= 500) {
       //throw AppException(description: L10nConstants.defaultError);
-      throw Exception();
+      return Result<T>.error(message: 'Error por defecto');
     } else {
       return _errorFromResponse(response);
     }
   }
 
-  T _errorFromResponse<T>(http.Response response) {
+  Result<T> _errorFromResponse<T>(http.Response response) {
     var body = _getBody(response.body);
-    // throw ApiException(response.statusCode, body);
-    throw Exception();
+    return Result<T>.error(message: 'Errores por codigo');
   }
 
   dynamic _getBody(dynamic body) {

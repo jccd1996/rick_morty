@@ -1,6 +1,7 @@
 import 'package:domain/base/repository.dart';
 import 'package:models/base_model.dart';
 import 'package:models/base_request.dart';
+import 'package:models/result.dart';
 
 import 'base_source.dart';
 
@@ -10,12 +11,12 @@ mixin StorageRepositoryGetAllAdapter<M extends BaseModel>
   DbSource get dbSource;
 
   @override
-  Future<List<M>> getAll([BaseRequest? params]) {
+  Future<Result<List<M>>> getAll([BaseRequest? params]) {
     return (apiSource as ApiSourceGetAll).getAll(params).then((result) async {
-      if (result != null) {
-        await (dbSource as DbSourceSaveAll).saveAll(result);
+      if (result.data != null) {
+        await (dbSource as DbSourceSaveAll).saveAll(result.data ?? []);
       }
-      return result as List<M>;
+      return result as Result<List<M>>;
     });
   }
 }
@@ -25,7 +26,7 @@ mixin RepositoryGetAllAdapter<M extends BaseModel>
   ApiSourceGetAll get apiSource;
 
   @override
-  Future<List<M>> getAll([BaseRequest? params]) {
-    return apiSource.getAll(params) as Future<List<M>>;
+  Future<Result<List<M>>> getAll([BaseRequest? params]) {
+    return apiSource.getAll(params) as Future<Result<List<M>>>;
   }
 }

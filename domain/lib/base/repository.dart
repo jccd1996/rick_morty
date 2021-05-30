@@ -1,5 +1,6 @@
 import 'package:models/base_model.dart';
 import 'package:models/base_request.dart';
+import 'package:models/result.dart';
 
 mixin BaseRepository {}
 
@@ -10,13 +11,13 @@ mixin RepositoryStream<M extends BaseModel> on BaseRepository {
   Stream<M?> stream([BaseRequest? params]);
 }
 mixin RepositoryGetAll<M extends BaseModel> on BaseRepository {
-  Future<List<M>> getAll([BaseRequest? params]);
+  Future<Result<List<M>>> getAll([BaseRequest? params]);
 }
 mixin RepositoryGet<M extends BaseModel> on BaseRepository {
-  Future<M> get([BaseRequest? params]);
+  Future<Result<M>> get([BaseRequest? params]);
 }
 mixin RepositoryGetById<M extends BaseModel> on BaseRepository {
-  Future<M> getById(String id);
+  Future<Result<M>> getById(String id);
 }
 mixin RepositoryStreamById<M extends BaseModel> on BaseRepository {
   Stream<M> streamById(String id);

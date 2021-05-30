@@ -1,22 +1,23 @@
 import 'package:models/base_model.dart';
 import 'package:models/base_request.dart';
+import 'package:models/result.dart';
 
 mixin ApiSource {}
 
 mixin ApiSourceGetAll<T extends BaseModel> on ApiSource {
-  Future<List<T>> getAll([BaseRequest? params]);
+  Future<Result<List<T>>> getAll([BaseRequest? params]);
 }
 
 mixin ApiSourceGet<T extends BaseModel> on ApiSource {
-  Future<T> get([BaseRequest? params]);
+  Future<Result<T>> get([BaseRequest? params]);
 }
 
 mixin ApiSourceGetById<T extends BaseModel> on ApiSource {
-  Future<T> getById(String id);
+  Future<Result<T>> getById(String id);
 }
 
 mixin ApiSourcePost<T, R> on ApiSource {
-  Future<T> post(R request);
+  Future<Result<T>> post(R request);
 }
 
 mixin DbSource {}
