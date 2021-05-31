@@ -1,20 +1,19 @@
-import 'package:models/base_model.dart';
+import 'package:models/results_episodes.dart';
 
 import 'info.dart';
-import 'result_character.dart';
 
-class CharacterResponse with BaseModel {
+class EpisodesResponse {
   Info? info;
-  List<ResultsCharacter>? results;
+  List<ResultsEpisodes>? results;
 
-  CharacterResponse({this.info, this.results});
+  EpisodesResponse({this.info, this.results});
 
-  CharacterResponse.fromJson(Map<String, dynamic> json) {
+  EpisodesResponse.fromJson(Map<String, dynamic> json) {
     info = json['info'] != null ? new Info.fromJson(json['info']) : null;
     if (json['results'] != null) {
-      results = <ResultsCharacter>[];
+      results = <ResultsEpisodes>[];
       json['results'].forEach((v) {
-        results!.add(new ResultsCharacter.fromJson(v));
+        results!.add(new ResultsEpisodes.fromJson(v));
       });
     }
   }
@@ -29,7 +28,4 @@ class CharacterResponse with BaseModel {
     }
     return data;
   }
-
-  @override
-  String get id => '1';
 }

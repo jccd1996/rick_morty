@@ -1,6 +1,6 @@
 import 'origin.dart';
 
-class Results {
+class ResultsCharacter {
   int? id;
   String? name;
   String? status;
@@ -14,7 +14,7 @@ class Results {
   String? url;
   String? created;
 
-  Results(
+  ResultsCharacter(
       {this.id,
       this.name,
       this.status,
@@ -28,7 +28,7 @@ class Results {
       this.url,
       this.created});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ResultsCharacter.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     status = json['status'];

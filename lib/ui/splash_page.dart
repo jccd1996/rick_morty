@@ -13,7 +13,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     AppDatabase().init();
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => CharactersPage()));
     });
   }

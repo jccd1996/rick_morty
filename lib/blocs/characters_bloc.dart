@@ -4,7 +4,7 @@ import 'package:domain/character_use_case.dart';
 import 'package:injectable/injectable.dart';
 import 'package:models/character_response.dart';
 import 'package:models/result.dart';
-import 'package:models/results.dart';
+import 'package:models/result_character.dart';
 import 'package:models/test_request.dart';
 import 'package:rick_morty/blocs/provider/bloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -16,9 +16,10 @@ class CharactersBloc extends Bloc {
   CharactersBloc(this._characterUseCase);
 
   StreamSubscription<CharacterResponse>? _characterStreamSubscription;
-  final charactersSubject = BehaviorSubject<List<Results>>();
+  final charactersSubject = BehaviorSubject<List<ResultsCharacter>>();
   final loadingSubject = BehaviorSubject<bool>();
-  ValueStream<List<Results>> get characters => charactersSubject.stream;
+  ValueStream<List<ResultsCharacter>> get characters =>
+      charactersSubject.stream;
 
   ValueStream<bool> get loading => loadingSubject.stream;
 

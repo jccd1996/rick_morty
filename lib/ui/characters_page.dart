@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:models/results.dart';
+import 'package:models/result.dart';
+import 'package:models/result_character.dart';
 import 'package:rick_morty/blocs/characters_bloc.dart';
 import 'package:rick_morty/ui/base_state.dart';
+
+import 'episodes_page.dart';
 
 class CharactersPage extends StatefulWidget {
   @override
@@ -9,12 +12,15 @@ class CharactersPage extends StatefulWidget {
 }
 
 class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
+  var switchValue = true;
   @override
   void initState() {
     super.initState();
     bloc!.streamCharacter();
     bloc!.getCharacters().then((value) {
-      _showDialog(value.error?.message ?? '');
+      if (value.status != Status.success) {
+        _showDialog(value.error?.message ?? '');
+      }
     });
   }
 
@@ -23,12 +29,14 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Rick and Morty'),
+        leading: SizedBox.shrink(),
+        centerTitle: true,
       ),
       body: StreamBuilder<bool>(
           stream: bloc!.loading,
           initialData: false,
           builder: (context, snapshotLoading) {
-            return StreamBuilder<List<Results>>(
+            return StreamBuilder<List<ResultsCharacter>>(
                 stream: bloc!.characters,
                 initialData: [],
                 builder: (context, snapshot) {
@@ -60,6 +68,30 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
                         child: Text(
                           'Clean',
                         ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EpisodesPage()));
+                        },
+                        child: Text(
+                          'Episodes Page',
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Switch.adaptive(
+                            value: switchValue,
+                            onChanged: (value) {
+                              setState(() {
+                                switchValue = value;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   );

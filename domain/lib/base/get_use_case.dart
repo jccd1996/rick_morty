@@ -12,6 +12,7 @@ mixin GetUseCaseAdapter<M extends BaseModel> implements GetUseCase<M> {
 
   @override
   Future<Result<M>> get([BaseRequest? params]) {
+    print('akgi');
     return (repository as RepositoryGet).get(params) as Future<Result<M>>;
   }
 }
