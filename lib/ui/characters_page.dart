@@ -3,6 +3,7 @@ import 'package:models/result.dart';
 import 'package:models/result_character.dart';
 import 'package:rick_morty/blocs/characters_bloc.dart';
 import 'package:rick_morty/ui/base_state.dart';
+import 'package:rick_morty/ui/test_page.dart';
 
 import 'episodes_page.dart';
 
@@ -78,6 +79,17 @@ class _CharactersPageState extends BaseState<CharactersPage, CharactersBloc> {
                         },
                         child: Text(
                           'Episodes Page',
+                        ),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TestPage()));
+                        },
+                        child: Text(
+                          'Test page',
                         ),
                       ),
                       Row(
