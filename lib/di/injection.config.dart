@@ -11,11 +11,12 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../blocs/characters_bloc.dart' as _i5;
 import '../blocs/episodes_bloc.dart' as _i7;
-import '../data_source/api/character_api_source.dart' as _i8;
-import '../data_source/api/my_api_source.dart' as _i9;
+import '../blocs/location_bloc.dart' as _i8;
+import '../data_source/api/character_api_source.dart' as _i9;
+import '../data_source/api/my_api_source.dart' as _i10;
 import '../data_source/data_base/character_db_source.dart' as _i4;
 import '../data_source/data_base/config/app_database.dart'
-    as _i10; // ignore_for_file: unnecessary_lambdas
+    as _i11; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -27,9 +28,11 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i5.CharactersBloc(get<_i6.CharacterUseCase>()));
   gh.factory<_i7.EpisodesBloc>(
       () => _i7.EpisodesBloc(get<_i6.CharacterUseCase>()));
+  gh.factory<_i8.LocationBloc>(
+      () => _i8.LocationBloc(get<_i6.CharacterUseCase>()));
   gh.factory<_i3.CharacterApiSource>(
-      () => _i8.CharacterApiSourceAdapter(get<_i9.MyApiSource>()));
-  gh.singleton<_i10.AppDatabase>(_i10.AppDatabase());
-  gh.singleton<_i9.MyApiSource>(_i9.MyApiSource());
+      () => _i9.CharacterApiSourceAdapter(get<_i10.MyApiSource>()));
+  gh.singleton<_i11.AppDatabase>(_i11.AppDatabase());
+  gh.singleton<_i10.MyApiSource>(_i10.MyApiSource());
   return get;
 }
